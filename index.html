@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Napster Clone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkLogin()">
+  <header class="fade-in">
+    <h1>Napster Clone 🎧</h1>
+    <input type="text" id="searchInput" placeholder="Şarkı ara...">
+    <button id="logoutBtn" onclick="logout()">Çıkış Yap</button>
+  </header>
+
+  <main>
+    <ul id="musicList" class="fade-in">
+      <li data-videoid="nCgQDjiotG0">
+        <span class="song-title">Alan Walker - Faded</span>
+        <button onclick="playVideo('nCgQDjiotG0')">▶️ Oynat</button>
+      </li>
+      <li data-videoid="9bZkp7q19f0">
+        <span class="song-title">PSY - Gangnam Style</span>
+        <button onclick="playVideo('9bZkp7q19f0')">▶️ Oynat</button>
+      </li>
+    </ul>
+
+    <div id="playerWrapper" class="player-wrapper">
+      <div id="player"></div>
+    </div>
+  </main>
+
+  <footer class="fade-in">
+    <p>© 2025 Napster Clone - Demo</p>
+  </footer>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="script.js"></script>
+</body>
+</html>
