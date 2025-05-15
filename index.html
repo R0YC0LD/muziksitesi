@@ -1,40 +1,21 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Napster Clone</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body onload="checkLogin()">
-  <header class="fade-in">
+<body>
+  <div class="container">
     <h1>Napster Clone 🎧</h1>
-    <input type="text" id="searchInput" placeholder="Şarkı ara...">
-    <button id="logoutBtn" onclick="logout()">Çıkış Yap</button>
-  </header>
+    <input type="text" id="searchInput" placeholder="Şarkı ara..." />
+    <button onclick="logout()" class="logout-btn">Çıkış Yap</button>
+  </div>
 
-  <main>
-    <ul id="musicList" class="fade-in">
-      <li data-videoid="nCgQDjiotG0">
-        <span class="song-title">Alan Walker - Faded</span>
-        <button onclick="playVideo('nCgQDjiotG0')">▶️ Oynat</button>
-      </li>
-      <li data-videoid="9bZkp7q19f0">
-        <span class="song-title">PSY - Gangnam Style</span>
-        <button onclick="playVideo('9bZkp7q19f0')">▶️ Oynat</button>
-      </li>
-    </ul>
+  <iframe id="hiddenPlayer" style="width:0; height:0; border:0; display:none;" allow="autoplay" allowfullscreen></iframe>
 
-    <div id="playerWrapper" class="player-wrapper">
-      <div id="player"></div>
-    </div>
-  </main>
-
-  <footer class="fade-in">
-    <p>© 2025 Napster Clone - Demo</p>
-  </footer>
-
-  <script src="https://www.youtube.com/iframe_api"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 
-let player;
-let playerReady = false;
+const API_KEY = "AIzaSyCrC4r9P2xZOZGqyjw72hyuJFDlNYK2GO8";
+let currentVideoId = null;
 
 function checkLogin() {
   const user = localStorage.getItem("username");
@@ -14,45 +14,40 @@ function logout() {
   window.location.href = "login.html";
 }
 
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
-    height: '300',
-    width: '500',
-    videoId: '',
-    playerVars: { autoplay: 1 },
-    events: {
-      'onReady': () => {
-        playerReady = true;
-      }
+async function searchAndPlaySong(query) {
+  try {
+    const res = await fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${encodeURIComponent(query)}&key=${API_KEY}`
+    );
+    const data = await res.json();
+    if (data.items && data.items.length > 0) {
+      const videoId = data.items[0].id.videoId;
+      currentVideoId = videoId;
+      playInvisibleAudio(videoId);
+    } else {
+      alert("Şarkı bulunamadı.");
     }
-  });
-}
-
-function playVideo(videoId) {
-  if (playerReady && player && typeof player.loadVideoById === "function") {
-    player.loadVideoById(videoId);
-  } else {
-    const interval = setInterval(() => {
-      if (playerReady && player && typeof player.loadVideoById === "function") {
-        clearInterval(interval);
-        player.loadVideoById(videoId);
-      }
-    }, 500);
+  } catch (error) {
+    console.error("Arama hatası:", error);
+    alert("Şarkı aranırken bir hata oluştu.");
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("searchInput");
-  const musicList = document.getElementById("musicList");
-  const songs = musicList.getElementsByTagName("li");
+function playInvisibleAudio(videoId) {
+  const hiddenPlayer = document.getElementById("hiddenPlayer");
+  hiddenPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+}
 
+document.addEventListener("DOMContentLoaded", () => {
+  checkLogin();
+
+  const searchInput = document.getElementById("searchInput");
   if (searchInput) {
-    searchInput.addEventListener("keyup", function () {
-      const filter = searchInput.value.toLowerCase();
-      Array.from(songs).forEach(function (song) {
-        const title = song.querySelector(".song-title").textContent.toLowerCase();
-        song.style.display = title.includes(filter) ? "" : "none";
-      });
+    searchInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        const song = this.value;
+        searchAndPlaySong(song);
+      }
     });
   }
 });

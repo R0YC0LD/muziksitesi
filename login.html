@@ -1,26 +1,24 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Napster Clone - Giriş</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Giriş Yap</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="login-body">
+<body>
   <div class="login-container">
-    <h2>Napster Clone 🎵</h2>
-    <input type="text" id="username" placeholder="Kullanıcı adı">
-    <button onclick="login()">Giriş Yap</button>
+    <h2>Giriş Yap</h2>
+    <input type="text" id="username" placeholder="Kullanıcı adı" />
+    <button onclick="login()">Giriş</button>
   </div>
-
   <script>
     function login() {
-      const username = document.getElementById('username').value.trim();
-      if (username.length > 0) {
-        localStorage.setItem('username', username);
+      const username = document.getElementById("username").value;
+      if (username) {
+        localStorage.setItem("username", username);
         window.location.href = "index.html";
-      } else {
-        alert("Lütfen kullanıcı adınızı girin.");
       }
     }
   </script>
