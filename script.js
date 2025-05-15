@@ -1,5 +1,6 @@
 
 let player;
+let playerReady = false;
 
 function checkLogin() {
   const user = localStorage.getItem("username");
@@ -19,23 +20,39 @@ function onYouTubeIframeAPIReady() {
     width: '500',
     videoId: '',
     playerVars: { autoplay: 1 },
+    events: {
+      'onReady': () => {
+        playerReady = true;
+      }
+    }
   });
 }
 
 function playVideo(videoId) {
-  if (player && player.loadVideoById) {
+  if (playerReady && player && typeof player.loadVideoById === "function") {
     player.loadVideoById(videoId);
+  } else {
+    const interval = setInterval(() => {
+      if (playerReady && player && typeof player.loadVideoById === "function") {
+        clearInterval(interval);
+        player.loadVideoById(videoId);
+      }
+    }, 500);
   }
 }
 
-const searchInput = document.getElementById("searchInput");
-const musicList = document.getElementById("musicList");
-const songs = musicList.getElementsByTagName("li");
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchInput");
+  const musicList = document.getElementById("musicList");
+  const songs = musicList.getElementsByTagName("li");
 
-searchInput.addEventListener("keyup", function () {
-  const filter = searchInput.value.toLowerCase();
-  Array.from(songs).forEach(function (song) {
-    const title = song.querySelector(".song-title").textContent.toLowerCase();
-    song.style.display = title.includes(filter) ? "" : "none";
-  });
+  if (searchInput) {
+    searchInput.addEventListener("keyup", function () {
+      const filter = searchInput.value.toLowerCase();
+      Array.from(songs).forEach(function (song) {
+        const title = song.querySelector(".song-title").textContent.toLowerCase();
+        song.style.display = title.includes(filter) ? "" : "none";
+      });
+    });
+  }
 });
